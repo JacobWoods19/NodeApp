@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<meta charset = "UTF-8">
+  	<title> My Form </title>
+  	<style>
+        a{
+            font-size: 40px;
+        }
+    	</style>
+</head>
+<body align='center'>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    </head>
+    <body class = "dark:bg-slate-900">
+        <!--Center map-->
+        <div class= "p-7">
+        <div id='map' class= "" style='width: 80%; height: 600px; border-radius: 25px; margin: 0 auto;'></div>
+        </div>
+        <div class="relative">
+            <!--Label for table-->
+            <div class="">
+                <h1 class="text-3xl font-bold leading-7 text-gray-200 sm:text-4xl sm:truncate">Incidents</h1>
+            </div>
+            <table class="w-full text-sm  text-gray-500 dark:text-gray-400" id= "incident_table">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <!--Add table headers-->
+                        <th class="px-4 py-3">Incident ID</th>
+                        <th class="px-4 py-3">Incident Date</th>
+                        <th class="px-4 py-3">Incident Description</th>
+                        <th class="px-4 py-3">Incident Long</th>
+                        <th class="px-4 py-3">Incident Lat</th>
+                        <th class="px-4 py-3">User Email</th>
+                        <th class="px-4 py-3">Resolve</th>
+
+                    </tr>
+                </thead>
+                
+            </table>
+        </div>
+        <script type="text/javascript">
+
+            //get all long and lat from database and plot them on the map
+            const markMap = async (map) => {
+                const response = await fetch('https://clownfish-app-y6vt9.ondigitalocean.app/get_all_incidents');
+                const myJson = await response.json(); 
+                // Example response:
+                // [["883312c1-0f67-47a1-b5c8-23b29d380cfd","01/02/03","snow","18.42901","14.124124","test@gmail.com"],
+                // ["ca55c8b2-2494-4341-a878-8c7ea508a4b0","01/02/03","snow","18.42901","14.124124","test@gmail.com"]]
+                // log all long and lat to map
+                var longs = [];
+                var lats = [];
+                for (let i = 0; i < myJson.length; i++) {
+                    longs.push(myJson[i][5]);
+                    lats.push(myJson[i][4]);
+                    console.log(longs)
+                    console.log(lats)
+                }
+                for (let i = 0; i < longs.length; i++) {
+                    var marker = new mapboxgl.Marker()
+                    .setLngLat([longs[i], lats[i]])
+                    .addTo(map);
+                }
+            }
+
+
+            
+            mapboxgl.accessToken = 'pk.eyJ1IjoiamFjb2J3b29kczQ1IiwiYSI6ImNsOTd0cWFhajMwdTgzbnA4OTNwbXU0Nm8ifQ.YrCrIUkwKQkYbggJInptpA';
+            const map = new mapboxgl.Map({
+                container: 'map', // container ID
+                style: 'mapbox://styles/mapbox/streets-v11', // style URL
+                center: [-92.33003044899793, 38.946370462799955], // 
+                zoom: 12 // starting zoom
+            });
+            markMap(map);
+            // add markers from long and lat to map
+            
+        </script>
+        <script src="/js/callAPI.js"></script>
+
+    </body>
+    </html>
+
+
+</body>
+</html>
