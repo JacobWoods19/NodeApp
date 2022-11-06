@@ -30,25 +30,30 @@
             <!--Label for table-->
             <div class="">
                 <h1 class="text-3xl font-bold leading-7 text-gray-200 sm:text-4xl sm:truncate">Incidents</h1>
-                <h5 class = "text-lg font-bold leading-7 text-gray-200 sm:text-4xl sm:truncate">Average Response Time</h5>
-                <h5 class = "text-lg font-bold leading-7 text-gray-200 sm:text-4xl sm:truncate" id="averageResponseTime"></h5>
+                <h1 class="text-lg font-bold leading-7 text-gray-200 sm:text-4xl sm:truncate">Average Response Time</h1>
+                <h1 class="text-lg leading-7 text-gray-600 sm:text-4xl sm:truncate" id = "avg_response_time"></h1>
             </div>
             <table class="w-full text-sm  text-gray-500 dark:text-gray-400" id= "incident_table">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <!--Add table headers-->
                         <th class="px-4 py-3">Incident ID</th>
+                        <th class="px-4 py-3">Email Responded With</th>
                         <th class="px-4 py-3">Incident Date</th>
-                        <th class="px-4 py-3">Incident Description</th>
-                        <th class="px-4 py-3">Incident Long</th>
+                        <th class="px-4 py-3">Incident Type</th>
                         <th class="px-4 py-3">Incident Lat</th>
-                        <th class="px-4 py-3">User Email</th>
+                        <th class="px-4 py-3">Incident Long</th>
                         <th class="px-4 py-3">Resolve</th>
 
                     </tr>
                 </thead>
                 
             </table>
+                <canvas id="myChart" style="width: 80%; height:300px margin: auto"></canvas>
+                <h1 class="text-lg font-bold leading-7 text-gray-200 sm:text-4xl sm:truncate">Average Response Time By Category 'In Days'</h1>
+                <div class= "p-10 m-10">
+                <canvas id="radarChart",  width= "150", height="150"></canvas>
+                </div>
         </div>
         <script type="text/javascript">
 
@@ -63,8 +68,8 @@
                 var longs = [];
                 var lats = [];
                 for (let i = 0; i < myJson.length; i++) {
-                    longs.push(myJson[i][5]);
-                    lats.push(myJson[i][4]);
+                    longs.push(myJson[i][4]);
+                    lats.push(myJson[i][5]);
                     console.log(longs)
                     console.log(lats)
                 }
@@ -88,7 +93,9 @@
             // add markers from long and lat to map
             
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="/js/callAPI.js"></script>
+
 
     </body>
     </html>
