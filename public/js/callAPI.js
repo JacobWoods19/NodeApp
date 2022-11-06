@@ -3,6 +3,22 @@
 // [["883312c1-0f67-47a1-b5c8-23b29d380cfd","01/02/03","snow","18.42901","14.124124","test@gmail.com"],
 // ["ca55c8b2-2494-4341-a878-8c7ea508a4b0","01/02/03","snow","18.42901","14.124124","test@gmail.com"]]
 
+
+
+// Call average responsons time api
+function averageResponseTime() {
+    fetch('https://clownfish-app-y6vt9.ondigitalocean.app/get_average_response')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        document.getElementById("averageResponseTime").innerHTML = data;
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+
 function deleteIncident(incident_id) {
     var payload = {
         id : incident_id
@@ -69,3 +85,4 @@ const getIncidents = async (alert_type) => {
 
 }
 getIncidents();
+averageResponseTime();
